@@ -1,33 +1,42 @@
-#define SDL_MAIN_USE_CALLBACKS 1  /* use the callbacks instead of main() */
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_main.h>
+#import <Game.h>
 
-static SDL_Window* window = NULL;
-static SDL_Renderer* renderer = NULL;
+Game::Game{}
+Game::~Game{}
 
-/* This function runs once at startup. */
-SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
+SDL_AppResult Game::Init(const char* title, int width, int height, bool fullScreen)
 {
+	SDL_Window* window = NULL;
+	SDL_Renderer* renderer = NULL;
+	int flags = 0;
+
+    if(fullScreen) {
+        flags = SDL_WINDOW_FULLSCREEN;
+    } else {
+        flags = SDL_WINDOW_RESIZABLE;
+	}
     /* Create the window */
-    if (!SDL_CreateWindowAndRenderer("Hello World", 1920, 1080, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
+    if (!SDL_CreateWindowAndRenderer(title, width, height, flags, &window, &renderer)) {
         SDL_Log("Couldn't create window and renderer: %s", SDL_GetError());
+        isRunning = false;
         return SDL_APP_FAILURE;
     }
+	isRunning = true;
     return SDL_APP_CONTINUE;
 }
-
-/* This function runs when a new event (mouse input, keypresses, etc) occurs. */
-SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event)
+Game::void HandleEvents()
 {
     if (event->type == SDL_EVENT_KEY_DOWN ||
         event->type == SDL_EVENT_QUIT) {
+        isRunning = false;
         return SDL_APP_SUCCESS;  /* end the program, reporting success to the OS. */
     }
     return SDL_APP_CONTINUE;
 }
-
-/* This function runs once per frame, and is the heart of the program. */
-SDL_AppResult SDL_AppIterate(void* appstate)
+Game::void Update()
+{
+    return;
+}
+Game::void Render()
 {
     const char* message = "Hello World!";
     int w = 0, h = 0;
@@ -49,19 +58,10 @@ SDL_AppResult SDL_AppIterate(void* appstate)
 
     return SDL_APP_CONTINUE;
 }
-
-/* This function runs once at shutdown. */
-void SDL_AppQuit(void* appstate, SDL_AppResult result)
+Game::void Clean()
 {
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	SDL_Log("Game cleaned up successfully.");
 }
 
-int main(int argc, char* argv[])
-{
-    // init sdl and window
-    // while game is running:
-	//   handle any user input
-	//   update game state and all objects
-    //   render the game state to the screen
-    // cleanup and exit
-   
-}
