@@ -2,7 +2,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include "Tetris.hpp"
-
+#include <SDL3_image/SDL_image.h>
 
 
 
@@ -13,6 +13,7 @@ static const int SCREEN_HEIGHT = 1080;
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
 {
+    
 	Tetris *tetris = new Tetris();
     if(!tetris->Init("SDL3 Tetris", SCREEN_WIDTH, SCREEN_HEIGHT, false))
     {

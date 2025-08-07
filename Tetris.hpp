@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include <stdio.h>
+
 
 class Tetris {
 public:
