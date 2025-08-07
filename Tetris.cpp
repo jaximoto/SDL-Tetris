@@ -1,42 +1,39 @@
-#import <Game.h>
+#include "Tetris.hpp"
 
-Game::Game{}
-Game::~Game{}
+Tetris::Tetris() : window(nullptr), renderer(nullptr), isRunning(false) {}
 
-SDL_AppResult Game::Init(const char* title, int width, int height, bool fullScreen)
+Tetris::~Tetris(){}
+
+bool Tetris::Init(const char* title, int width, int height, bool fullScreen)
 {
-	SDL_Window* window = NULL;
-	SDL_Renderer* renderer = NULL;
-	int flags = 0;
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
+        SDL_Log("SDL could not initialize! SDL_Error: %s", SDL_GetError());
+        return false;
+    }
 
-    if(fullScreen) {
-        flags = SDL_WINDOW_FULLSCREEN;
-    } else {
-        flags = SDL_WINDOW_RESIZABLE;
-	}
+    int flags = fullScreen ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_RESIZABLE;
     /* Create the window */
     if (!SDL_CreateWindowAndRenderer(title, width, height, flags, &window, &renderer)) {
         SDL_Log("Couldn't create window and renderer: %s", SDL_GetError());
-        isRunning = false;
-        return SDL_APP_FAILURE;
+        return false;
     }
 	isRunning = true;
-    return SDL_APP_CONTINUE;
+    return true;
 }
-Game::void HandleEvents()
+bool Tetris::HandleEvents(SDL_Event* event)
 {
     if (event->type == SDL_EVENT_KEY_DOWN ||
         event->type == SDL_EVENT_QUIT) {
         isRunning = false;
-        return SDL_APP_SUCCESS;  /* end the program, reporting success to the OS. */
+        return false;  /* end the program, reporting success to the OS. */
     }
-    return SDL_APP_CONTINUE;
+    return true;
 }
-Game::void Update()
+void Tetris::Update()
 {
     return;
 }
-Game::void Render()
+void Tetris::Render()
 {
     const char* message = "Hello World!";
     int w = 0, h = 0;
@@ -56,12 +53,13 @@ Game::void Render()
     SDL_RenderDebugText(renderer, x, y, message);
     SDL_RenderPresent(renderer);
 
-    return SDL_APP_CONTINUE;
+    return;
 }
-Game::void Clean()
+void Tetris::Clean()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
-	SDL_Log("Game cleaned up successfully.");
+    SDL_Quit();
+	SDL_Log("Tetris cleaned up successfully.");
 }
 
