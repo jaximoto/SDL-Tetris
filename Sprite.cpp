@@ -17,6 +17,11 @@ SDL_Texture* Sprite::LoadTexture(SDL_Renderer* renderer, const char* filePath)
 	}
 	return texture;
 }
+
+bool Sprite::Render(SDL_Renderer* renderer, float width, float height)
+{
+	SDL_RenderTexture(this->renderer, this->texture, NULL, NULL);
+}
 Sprite::~Sprite()
 {
 	Clean();
