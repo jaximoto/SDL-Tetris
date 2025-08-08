@@ -1,8 +1,9 @@
 #define SDL_MAIN_USE_CALLBACKS 1  /* use the callbacks instead of main() */
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <SDL3_image/SDL_image.h>
 #include "Tetris.hpp"
-
+#include "Sprite.hpp"
 
 
 
@@ -13,13 +14,14 @@ static const int SCREEN_HEIGHT = 1080;
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
 {
+    
 	Tetris *tetris = new Tetris();
     if(!tetris->Init("SDL3 Tetris", SCREEN_WIDTH, SCREEN_HEIGHT, false))
     {
 		delete(tetris);
         return SDL_APP_FAILURE;
     }
-	
+    tetris->AddSprite("C:/GLP/SDLx64-0/Assets/cblock.png");
 	*appstate = tetris;  /* store the Tetris instance in appstate */
     return SDL_APP_CONTINUE;
 }
@@ -38,6 +40,8 @@ SDL_AppResult SDL_AppIterate(void* appstate)
 {
     Tetris* tetris = static_cast<Tetris*>(appstate);
 	tetris->Update();
+
+    
     tetris->Render();
     return SDL_APP_CONTINUE;
 }
