@@ -5,8 +5,9 @@ class Sprite {
 public:
 	Sprite(SDL_Renderer* renderer, const char* filePath);
 	~Sprite();
-	bool Render(SDL_Renderer* renderer, float width, float height);
+	bool Render(SDL_Renderer* renderer);
 	void Clean();
+	bool IsLoaded() const;
 
 private:
 	SDL_Texture* texture;

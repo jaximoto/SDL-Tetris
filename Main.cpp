@@ -21,7 +21,7 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
 		delete(tetris);
         return SDL_APP_FAILURE;
     }
-	
+    tetris->AddSprite("C:/GLP/SDLx64-0/Assets/cblock.png");
 	*appstate = tetris;  /* store the Tetris instance in appstate */
     return SDL_APP_CONTINUE;
 }
@@ -40,6 +40,8 @@ SDL_AppResult SDL_AppIterate(void* appstate)
 {
     Tetris* tetris = static_cast<Tetris*>(appstate);
 	tetris->Update();
+
+    
     tetris->Render();
     return SDL_APP_CONTINUE;
 }

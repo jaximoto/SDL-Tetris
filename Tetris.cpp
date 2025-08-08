@@ -1,6 +1,11 @@
 #include "Tetris.hpp"
 
-Tetris::Tetris() : window(nullptr), renderer(nullptr), isRunning(false) {}
+Tetris::Tetris()
+{
+    this->window = nullptr;
+    this->renderer = nullptr;
+    this->isRunning = false;
+}
 
 Tetris::~Tetris(){}
 
@@ -18,6 +23,20 @@ bool Tetris::Init(const char* title, int width, int height, bool fullScreen)
         return false;
     }
 	isRunning = true;
+    return true;
+}
+
+bool Tetris::AddSprite(const char *filePath)
+{
+    Sprite *newSprite = new Sprite(this->renderer, filePath);
+    
+    if (!newSprite->IsLoaded())
+    {
+        delete newSprite;
+        return false;
+    }
+
+    this->sprites.push_back(newSprite);
     return true;
 }
 bool Tetris::HandleEvents(SDL_Event* event)
@@ -51,9 +70,18 @@ void Tetris::Render()
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderDebugText(renderer, x, y, message);
+    this->RenderSprites();
     SDL_RenderPresent(renderer);
 
     return;
+}
+
+void Tetris::RenderSprites()
+{
+    for (int i = 0; i < this->sprites.size(); i++)
+    {
+        this->sprites[i]->Render(this->renderer);
+    }
 }
 void Tetris::Clean()
 {
@@ -61,5 +89,13 @@ void Tetris::Clean()
 	SDL_DestroyWindow(window);
     SDL_Quit();
 	SDL_Log("Tetris cleaned up successfully.");
+}
+
+void Tetris::DestroySprites()
+{
+    for (int i = 0; i < this->sprites.size(); i++)
+    {
+        this->sprites[i]->Clean();
+    }
 }
 
