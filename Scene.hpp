@@ -4,13 +4,13 @@
 #include "Sprite.hpp"
 
 
-class Tetris {
+class Scene {
 public:
 		SDL_Window* window;
 		SDL_Renderer* renderer;
 		std::vector<Sprite*> sprites;
-		Tetris();
-		~Tetris();
+		Scene();
+		~Scene();
 		bool Init(const char* title, int width, int height, bool fullScreen);
 		bool AddSprite(const char* filePath);
 		bool HandleEvents(SDL_Event *event);
@@ -28,4 +28,4 @@ private:
 	void RenderSprites();
 	
 };
-// Tetris.hpp
+// Scene.hpp

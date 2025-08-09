@@ -2,7 +2,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3_image/SDL_image.h>
-#include "Tetris.hpp"
+#include "Scene.hpp"
 #include "Sprite.hpp"
 
 
@@ -15,21 +15,21 @@ static const int SCREEN_HEIGHT = 1080;
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
 {
     
-	Tetris *tetris = new Tetris();
-    if(!tetris->Init("SDL3 Tetris", SCREEN_WIDTH, SCREEN_HEIGHT, false))
+	Scene *tetris = new Scene();
+    if(!tetris->Init("SDL3 Scene", SCREEN_WIDTH, SCREEN_HEIGHT, false))
     {
 		delete(tetris);
         return SDL_APP_FAILURE;
     }
     tetris->AddSprite("C:/GLP/SDLx64-0/Assets/cblock.png");
-	*appstate = tetris;  /* store the Tetris instance in appstate */
+	*appstate = tetris;  /* store the Scene instance in appstate */
     return SDL_APP_CONTINUE;
 }
 
 /* This function runs when a new event (mouse input, keypresses, etc) occurs. */
 SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event)
 {
-    Tetris* tetris = static_cast<Tetris*>(appstate);
+    Scene* tetris = static_cast<Scene*>(appstate);
 	if(!tetris->HandleEvents(event))
 		return SDL_APP_SUCCESS;  /* end the program, reporting success to the OS. */
     return SDL_APP_CONTINUE;
@@ -38,7 +38,7 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event)
 /* This function runs once per frame, and is the heart of the program. */
 SDL_AppResult SDL_AppIterate(void* appstate)
 {
-    Tetris* tetris = static_cast<Tetris*>(appstate);
+    Scene* tetris = static_cast<Scene*>(appstate);
 	tetris->Update();
 
     
@@ -49,7 +49,7 @@ SDL_AppResult SDL_AppIterate(void* appstate)
 /* This function runs once at shutdown. */
 void SDL_AppQuit(void* appstate, SDL_AppResult result)
 {
-    Tetris* tetris = static_cast<Tetris*>(appstate);
+    Scene* tetris = static_cast<Scene*>(appstate);
     tetris->Clean();
 }
 

@@ -1,15 +1,15 @@
-#include "Tetris.hpp"
+#include "Scene.hpp"
 
-Tetris::Tetris()
+Scene::Scene()
 {
     this->window = nullptr;
     this->renderer = nullptr;
     this->isRunning = false;
 }
 
-Tetris::~Tetris(){}
+Scene::~Scene(){}
 
-bool Tetris::Init(const char* title, int width, int height, bool fullScreen)
+bool Scene::Init(const char* title, int width, int height, bool fullScreen)
 {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("SDL could not initialize! SDL_Error: %s", SDL_GetError());
@@ -26,7 +26,7 @@ bool Tetris::Init(const char* title, int width, int height, bool fullScreen)
     return true;
 }
 
-bool Tetris::AddSprite(const char *filePath)
+bool Scene::AddSprite(const char *filePath)
 {
     Sprite *newSprite = new Sprite(this->renderer, filePath);
     
@@ -39,7 +39,7 @@ bool Tetris::AddSprite(const char *filePath)
     this->sprites.push_back(newSprite);
     return true;
 }
-bool Tetris::HandleEvents(SDL_Event* event)
+bool Scene::HandleEvents(SDL_Event* event)
 {
     if (event->type == SDL_EVENT_KEY_DOWN ||
         event->type == SDL_EVENT_QUIT) {
@@ -48,11 +48,11 @@ bool Tetris::HandleEvents(SDL_Event* event)
     }
     return true;
 }
-void Tetris::Update()
+void Scene::Update()
 {
     return;
 }
-void Tetris::Render()
+void Scene::Render()
 {
     const char* message = "Hello World!";
     int w = 0, h = 0;
@@ -76,22 +76,22 @@ void Tetris::Render()
     return;
 }
 
-void Tetris::RenderSprites()
+void Scene::RenderSprites()
 {
     for (int i = 0; i < this->sprites.size(); i++)
     {
         this->sprites[i]->Render(this->renderer);
     }
 }
-void Tetris::Clean()
+void Scene::Clean()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
     SDL_Quit();
-	SDL_Log("Tetris cleaned up successfully.");
+	SDL_Log("Scene cleaned up successfully.");
 }
 
-void Tetris::DestroySprites()
+void Scene::DestroySprites()
 {
     for (int i = 0; i < this->sprites.size(); i++)
     {
