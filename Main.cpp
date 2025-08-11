@@ -21,7 +21,7 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
 		delete(tetris);
         return SDL_APP_FAILURE;
     }
-    tetris->AddSprite("C:/GLP/SDLx64-0/Assets/cblock.png");
+    tetris->AddSprite("C:/GLP/SDLx64-0/Assets/cblock.png", 485, 303, 473, 473);
 	*appstate = tetris;  /* store the Scene instance in appstate */
     return SDL_APP_CONTINUE;
 }

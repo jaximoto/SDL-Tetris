@@ -1,5 +1,5 @@
 #include "Scene.hpp"
-
+#include <SDL3/SDL_init.h>
 Scene::Scene()
 {
     this->window = nullptr;
@@ -16,6 +16,11 @@ bool Scene::Init(const char* title, int width, int height, bool fullScreen)
         return false;
     }
 
+    if(!SDL_SetAppMetadata("SDL3 Tetris", "1.0", "com.TetrisSDL3"))
+    {
+        SDL_Log("SDL could not set metadata! SDL_Error: %s", SDL_GetError());
+        return false;
+    }
     int flags = fullScreen ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_RESIZABLE;
     /* Create the window */
     if (!SDL_CreateWindowAndRenderer(title, width, height, flags, &window, &renderer)) {
@@ -26,9 +31,11 @@ bool Scene::Init(const char* title, int width, int height, bool fullScreen)
     return true;
 }
 
-bool Scene::AddSprite(const char *filePath)
+bool Scene::AddSprite(const char *filePath, float x, float y, float w, float h)
 {
-    Sprite *newSprite = new Sprite(this->renderer, filePath);
+    SDL_FRect* src = new SDL_FRect{ x, y, w, h };
+    
+    Sprite *newSprite = new Sprite(this->renderer, filePath, src, src);
     
     if (!newSprite->IsLoaded())
     {

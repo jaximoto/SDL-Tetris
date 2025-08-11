@@ -12,7 +12,7 @@ public:
 		Scene();
 		~Scene();
 		bool Init(const char* title, int width, int height, bool fullScreen);
-		bool AddSprite(const char* filePath);
+		bool AddSprite(const char* filePath, float x, float y, float w, float h);
 		bool HandleEvents(SDL_Event *event);
 		void Update();
 		void Render();

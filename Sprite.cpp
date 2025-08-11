@@ -1,12 +1,14 @@
 #include "Sprite.hpp"
 
-Sprite::Sprite(SDL_Renderer* renderer, const char* filePath)
+Sprite::Sprite(SDL_Renderer* renderer, const char* filePath, SDL_FRect *sRect, SDL_FRect *dRect)
 {
-this->renderer = renderer;
-this->texture = LoadTexture(renderer, filePath);
+	this->sRect = sRect;
+	this->sRect = dRect;
+	this->renderer = renderer;
+	this->texture = LoadTexture(renderer, filePath);
 if (this->texture)
 {
-	SDL_GetTextureSize(this->texture, &this->width, &this->height);
+	SDL_GetTextureSize(this->texture, NULL, NULL);
 	this->isLoaded = true;
 }
 else
@@ -32,7 +34,11 @@ bool Sprite::IsLoaded() const
 
 bool Sprite::Render(SDL_Renderer* renderer)
 {
-	return SDL_RenderTexture(this->renderer, this->texture, NULL, NULL);
+	
+	/*SDL_Log("Rendering sprite with sRect: x=%f, y=%f, w=%f, h=%f",
+		this->sRect->x, this->sRect->y, this->sRect->w, this->sRect->h);
+	*/
+	return SDL_RenderTexture(this->renderer, this->texture, this->sRect, NULL);
 }
 Sprite::~Sprite()
 {
@@ -42,6 +48,8 @@ Sprite::~Sprite()
 void Sprite::Clean()
 {
 	SDL_DestroyTexture(this->texture);
+	SDL_free(this->sRect);
+	SDL_free(this->dRect);
 	texture = nullptr;
 }
 
