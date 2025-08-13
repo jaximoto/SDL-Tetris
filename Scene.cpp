@@ -9,7 +9,7 @@ Scene::Scene()
 
 Scene::~Scene(){}
 
-bool Scene::Init(const char* title, int width, int height, bool fullScreen)
+bool Scene::Init(const char* title, int sWidth, int sHeight, int lWidth, int lHeight, bool fullScreen)
 {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("SDL could not initialize! SDL_Error: %s", SDL_GetError());
@@ -23,10 +23,16 @@ bool Scene::Init(const char* title, int width, int height, bool fullScreen)
     }
     int flags = fullScreen ? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_RESIZABLE;
     /* Create the window */
-    if (!SDL_CreateWindowAndRenderer(title, width, height, flags, &window, &renderer)) {
+    if (!SDL_CreateWindowAndRenderer(title, sWidth, sHeight, flags, &window, &renderer)) {
         SDL_Log("Couldn't create window and renderer: %s", SDL_GetError());
         return false;
     }
+	/* Set logical size */
+    if(!SDL_SetRenderLogicalPresentation(renderer, lWidth, lHeight, SDL_LOGICAL_PRESENTATION_LETTERBOX))
+    {
+        SDL_Log("Couldn't set logical size: %s", SDL_GetError());
+        return false;
+	}
 	isRunning = true;
     return true;
 }
@@ -125,24 +131,13 @@ void Scene::Update()
 }
 void Scene::Render()
 {
-    const char* message = "Hello World!";
-    int w = 0, h = 0;
-    float x, y;
-    const float scale = 4.0f;
+   
 
-    /* Center the message and scale it up */
-    SDL_GetRenderOutputSize(renderer, &w, &h);
-    SDL_SetRenderScale(renderer, scale, scale);
-    x = ((w / scale) - SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE * SDL_strlen(message)) / 2;
-    y = ((h / scale) - SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE) / 2;
+   
+   
 
-    /* Draw the message */
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  
     SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    //SDL_RenderDebugText(renderer, x, y, message);
-    //Sprite* sprite = this->GetSprite(0);
-
     this->RenderSprites();
     SDL_RenderPresent(renderer);
 
@@ -160,6 +155,7 @@ void Scene::Clean()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
+	DestroySprites();
     SDL_Quit();
 	SDL_Log("Scene cleaned up successfully.");
 }

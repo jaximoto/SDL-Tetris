@@ -11,7 +11,7 @@ public:
 		std::vector<Sprite*> sprites;
 		Scene();
 		~Scene();
-		bool Init(const char* title, int width, int height, bool fullScreen);
+		bool Init(const char* title, int sWidth, int sHeight, int lWidth, int lHeight, bool fullScreen);
 		bool AddSprite(const char* filePath);
 		bool ClipSprite(int textureIndex, float clipStartX, float clipStartY, float clipWidth, float clipHeight);
 		bool MoveSprite(int textureIndex, float posX, float posY);

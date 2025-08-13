@@ -10,13 +10,14 @@
 // Consts
 static const int SCREEN_WIDTH = 1920;
 static const int SCREEN_HEIGHT = 1080;
-
+static const int LOGICAL_WIDTH = 400;
+static const int LOGICAL_HEIGHT = 300;
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
 {
     
 	Scene *tetris = new Scene();
-    if(!tetris->Init("SDL3 Scene", SCREEN_WIDTH, SCREEN_HEIGHT, false))
+    if(!tetris->Init("SDL3 Scene", SCREEN_WIDTH, SCREEN_HEIGHT, LOGICAL_WIDTH, LOGICAL_HEIGHT, false))
     {
 		delete(tetris);
         return SDL_APP_FAILURE;
@@ -29,8 +30,8 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
     //SDL_Log("get sprite width: %f", tetris->GetSpriteWidth(0));
     //SDL_Log("get sprite height: %f", tetris->GetSpriteHeight(0));
     //tetris->MoveSprite(0,  ((SCREEN_WIDTH - tetris->GetSpriteWidth(0)) / 2), ((SCREEN_HEIGHT - tetris->GetSpriteHeight(0)) / 2));
-    if(tetris->MoveSprite(0, 450,238))
-        SDL_Log("returned true");
+    if(tetris->MoveSprite(0, 200,150))
+        //SDL_Log("returned true");
     *appstate = tetris;  /* store the Scene instance in appstate */
 	*appstate = tetris;  /* store the Scene instance in appstate */
     return SDL_APP_CONTINUE;
