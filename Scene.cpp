@@ -5,6 +5,8 @@ Scene::Scene()
     this->window = nullptr;
     this->renderer = nullptr;
     this->isRunning = false;
+	this->deltaTime = 0.0f;
+    this->lastTick = 0.0f;
 }
 
 Scene::~Scene(){}
@@ -33,7 +35,8 @@ bool Scene::Init(const char* title, int sWidth, int sHeight, int lWidth, int lHe
         SDL_Log("Couldn't set logical size: %s", SDL_GetError());
         return false;
 	}
-	isRunning = true;
+    this->lastTick = SDL_GetTicks();
+	this->isRunning = true;
     return true;
 }
 
@@ -89,6 +92,27 @@ bool Scene::MoveSprite(int textureIndex, float posX, float posY)
 
     return this->sprites[textureIndex]->SetScreenPos(posX, posY);
 }
+
+float Scene::GetSpriteX(int index)
+{
+    Sprite* sprite = GetSprite(index);
+    if (sprite == nullptr)
+    {
+        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist at index: %d", index);
+        return -1;
+    }
+    return sprites[index]->dRect.x;
+}
+float Scene::GetSpriteY(int index)
+{
+    Sprite* sprite = GetSprite(index);
+    if (sprite == nullptr)
+    {
+        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist at index: %d", index);
+        return -1;
+    }
+    return sprites[index]->dRect.y;
+}
 float Scene::GetSpriteWidth(int index)
 {
     Sprite* sprite = GetSprite(index);
@@ -127,7 +151,16 @@ bool Scene::HandleEvents(SDL_Event* event)
 }
 void Scene::Update()
 {
+    CalculateDeltaTime();
     return;
+}
+
+float Scene::CalculateDeltaTime()
+{
+    Uint64 currentTick = SDL_GetTicks(); 
+    this->deltaTime = currentTick - lastTick;
+    lastTick = currentTick;
+    return deltaTime;
 }
 void Scene::Render()
 {

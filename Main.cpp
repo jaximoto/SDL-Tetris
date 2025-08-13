@@ -12,6 +12,8 @@ static const int SCREEN_WIDTH = 1920;
 static const int SCREEN_HEIGHT = 1080;
 static const int LOGICAL_WIDTH = 400;
 static const int LOGICAL_HEIGHT = 300;
+static float timeAccumulator = 0.0f;
+
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
 {
@@ -51,6 +53,20 @@ SDL_AppResult SDL_AppIterate(void* appstate)
 {
     Scene* tetris = static_cast<Scene*>(appstate);
 	tetris->Update();
+    float deltaTime = tetris->deltaTime; 
+    timeAccumulator += deltaTime;
+    float lastTime = 0.0f;
+
+    
+
+    if (timeAccumulator > lastTime + 1000)
+    {
+        tetris->MoveSprite(0, tetris->GetSpriteX(0), tetris->GetSpriteY(0) + 1 * tetris->deltaTime);
+       
+        lastTime = timeAccumulator;
+    }
+
+	//tetris->MoveSprite(0, tetris->GetSpriteX(0), tetris->GetSpriteY(0) + 1);
 
     
     tetris->Render();

@@ -9,6 +9,8 @@ public:
 		SDL_Window* window;
 		SDL_Renderer* renderer;
 		std::vector<Sprite*> sprites;
+		float deltaTime;
+
 		Scene();
 		~Scene();
 		bool Init(const char* title, int sWidth, int sHeight, int lWidth, int lHeight, bool fullScreen);
@@ -18,6 +20,8 @@ public:
 		bool ScaleSprite(int textureIndex, float width, float height);
 		float GetSpriteWidth(int index);
 		float GetSpriteHeight(int index);
+		float GetSpriteX(int index);
+		float GetSpriteY(int index);
 		bool HandleEvents(SDL_Event *event);
 		void Update();
 		void Render();
@@ -29,9 +33,12 @@ public:
 		
 private:
 	bool isRunning;
-	
+	Uint64 lastTick;
+
+
 	Sprite* GetSprite(int index);
 	void RenderSprites();
+	float CalculateDeltaTime();
 
 	
 };
