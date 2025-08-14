@@ -24,7 +24,7 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
 		delete(tetris);
         return SDL_APP_FAILURE;
     }
-    tetris->AddSprite("C:/GLP/SDLx64-0/Assets/cblock.png");
+    tetris->AddSprite("C:/GLP/SDLx64-0/Assets/cblock.png", "square");
     tetris->ClipSprite(0, 485, 303, 475, 474);
     //tetris->ClipSprite(0, 485, 303, 600, 600);
     //tetris->ClipSprite(0, 0, 0, 1920, 1080);
