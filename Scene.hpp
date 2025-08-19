@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <vector>
+#include <string>
+#include <unordered_map>
 #include "Sprite.hpp"
 
 
@@ -8,20 +10,21 @@ class Scene {
 public:
 		SDL_Window* window;
 		SDL_Renderer* renderer;
-		std::vector<Sprite*> sprites;
+		std::unordered_map<std::string, Sprite*> spriteMap;
+		
 		float deltaTime;
 
 		Scene();
 		~Scene();
-		bool Init(const char* title, int sWidth, int sHeight, int lWidth, int lHeight, bool fullScreen);
-		bool AddSprite(const char* filePath);
-		bool ClipSprite(int textureIndex, float clipStartX, float clipStartY, float clipWidth, float clipHeight);
-		bool MoveSprite(int textureIndex, float posX, float posY);
-		bool ScaleSprite(int textureIndex, float width, float height);
-		float GetSpriteWidth(int index);
-		float GetSpriteHeight(int index);
-		float GetSpriteX(int index);
-		float GetSpriteY(int index);
+		bool Init(const char *title, int sWidth, int sHeight, int lWidth, int lHeight, bool fullScreen);
+		bool AddSprite(const char *filePath, std::string name);
+		bool ClipSprite(std::string name, float clipStartX, float clipStartY, float clipWidth, float clipHeight);
+		bool MoveSprite(std::string name, float posX, float posY);
+		bool ScaleSprite(std::string name, float width, float height);
+		float GetSpriteWidth(std::string name);
+		float GetSpriteHeight(std::string name);
+		float GetSpriteX(std::string name);
+		float GetSpriteY(std::string name);
 		bool HandleEvents(SDL_Event *event);
 		void Update();
 		void Render();
@@ -36,7 +39,7 @@ private:
 	Uint64 lastTick;
 
 
-	Sprite* GetSprite(int index);
+	Sprite* GetSprite(std::string name);
 	void RenderSprites();
 	float CalculateDeltaTime();
 

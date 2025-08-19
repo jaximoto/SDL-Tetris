@@ -5,13 +5,13 @@ Scene::Scene()
     this->window = nullptr;
     this->renderer = nullptr;
     this->isRunning = false;
-	this->deltaTime = 0.0f;
-    this->lastTick = 0.0f;
+	this->deltaTime = 0;
+    this->lastTick = 0;
 }
 
-Scene::~Scene(){}
 
-bool Scene::Init(const char* title, int sWidth, int sHeight, int lWidth, int lHeight, bool fullScreen)
+
+bool Scene::Init(const char *title, int sWidth, int sHeight, int lWidth, int lHeight, bool fullScreen)
 {
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("SDL could not initialize! SDL_Error: %s", SDL_GetError());
@@ -41,7 +41,7 @@ bool Scene::Init(const char* title, int sWidth, int sHeight, int lWidth, int lHe
 }
 
 //----------------------------------Sprites----------------------
-bool Scene::AddSprite(const char *filePath)
+bool Scene::AddSprite(const char *filePath, std::string name)
 {
    
     
@@ -53,92 +53,95 @@ bool Scene::AddSprite(const char *filePath)
         return false;
     }
 
-    this->sprites.push_back(newSprite);
+    this->spriteMap.insert({ name, newSprite });
     return true;
 }
 
-bool Scene::ClipSprite(int textureIndex, float clipStartX, float clipStartY, float clipWidth, float clipHeight)
+bool Scene::ClipSprite(std::string name, float clipStartX, float clipStartY, float clipWidth, float clipHeight)
 {
-    Sprite* sprite = GetSprite(textureIndex);
+    Sprite* sprite = GetSprite(name);
     if (sprite == nullptr)
     {
-        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist at index: %d", textureIndex);
+        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist: %s", name.c_str());
         return false;
     }
-    return this->sprites[textureIndex]->Crop(clipStartX, clipStartY, clipWidth, clipHeight);
+    return sprite->Crop(clipStartX, clipStartY, clipWidth, clipHeight);
 }
 
-bool Scene::ScaleSprite(int textureIndex, float width, float height)
+bool Scene::ScaleSprite(std::string name, float width, float height)
 {
-    Sprite* sprite = GetSprite(textureIndex);
+    Sprite* sprite = GetSprite(name);
     if (sprite == nullptr)
     {
-        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist at index: %d", textureIndex);
+        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist: %s", name.c_str());
         return false;
     }
 
     
-    return this->sprites[textureIndex]->SetScreenScale(width, height);
+    return sprite->SetScreenScale(width, height);
 }
-bool Scene::MoveSprite(int textureIndex, float posX, float posY)
+bool Scene::MoveSprite(std::string name, float posX, float posY)
 {
-    Sprite* sprite = GetSprite(textureIndex);
+    Sprite* sprite = GetSprite(name);
     if (sprite == nullptr)
     {
-        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist at index: %d", textureIndex);
+        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist %s", name.c_str());
         return false;
     }
 
 
-    return this->sprites[textureIndex]->SetScreenPos(posX, posY);
+    return sprite->SetScreenPos(posX, posY);
 }
 
-float Scene::GetSpriteX(int index)
+float Scene::GetSpriteX(std::string name)
 {
-    Sprite* sprite = GetSprite(index);
+    Sprite* sprite = GetSprite(name);
     if (sprite == nullptr)
     {
-        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist at index: %d", index);
+        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist: %s", name.c_str());
         return -1;
     }
-    return sprites[index]->dRect.x;
+    return sprite->dRect.x;
 }
-float Scene::GetSpriteY(int index)
+float Scene::GetSpriteY(std::string name)
 {
-    Sprite* sprite = GetSprite(index);
+    Sprite* sprite = GetSprite(name);
     if (sprite == nullptr)
     {
-        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist at index: %d", index);
+        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist: %s", name.c_str());
         return -1;
     }
-    return sprites[index]->dRect.y;
+    return sprite->dRect.y;
 }
-float Scene::GetSpriteWidth(int index)
+float Scene::GetSpriteWidth(std::string name)
 {
-    Sprite* sprite = GetSprite(index);
+    Sprite* sprite = GetSprite(name);
     if (sprite == nullptr)
     {
-        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist at index: %d", index);
+        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not %s", name.c_str());
         return -1;
     }
     return sprite->dRect.w;
 }
 
-float Scene::GetSpriteHeight(int index)
+float Scene::GetSpriteHeight(std::string name)
 {
-    Sprite* sprite = GetSprite(index);
+    Sprite* sprite = GetSprite(name);
     if (sprite == nullptr)
     {
-        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist at index: %d", index);
+        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist: %s", name.c_str());
         return -1;
     }
     return sprite->dRect.h;
 }
-Sprite* Scene::GetSprite(int index)
+Sprite* Scene::GetSprite(std::string name)
 {
    
-    if (index < 0 || index >= sprites.size()) return nullptr;
-    return sprites[index];
+    auto it = this->spriteMap.find(name);
+
+    if(it != this->spriteMap.end())
+		return it->second;
+	return nullptr;  /* sprite not found */
 }
 bool Scene::HandleEvents(SDL_Event* event)
 {
@@ -179,10 +182,16 @@ void Scene::Render()
 
 void Scene::RenderSprites()
 {
-    for (int i = 0; i < this->sprites.size(); i++)
+    for (auto it = this->spriteMap.begin(); it != this->spriteMap.end(); ++it)
     {
-        this->sprites[i]->Render(this->renderer);
-    }
+        it->second->Render(this->renderer);
+	}
+}
+
+Scene::~Scene()
+{
+    isRunning = false;
+    Clean();
 }
 void Scene::Clean()
 {
@@ -195,9 +204,11 @@ void Scene::Clean()
 
 void Scene::DestroySprites()
 {
-    for (int i = 0; i < this->sprites.size(); i++)
+    for (auto& pair : spriteMap)
     {
-        this->sprites[i]->Clean();
+        delete pair.second;
     }
+	spriteMap.clear();
+
 }
 
