@@ -16,15 +16,15 @@ public:
 
 		Scene();
 		~Scene();
-		bool Init(const char* title, int sWidth, int sHeight, int lWidth, int lHeight, bool fullScreen);
-		bool AddSprite(const char* filePath, char *name);
-		bool ClipSprite(char *name, float clipStartX, float clipStartY, float clipWidth, float clipHeight);
-		bool MoveSprite(char *name, float posX, float posY);
-		bool ScaleSprite(char *name, float width, float height);
-		float GetSpriteWidth(char *name);
-		float GetSpriteHeight(char *name);
-		float GetSpriteX(char *name);
-		float GetSpriteY(char *name);
+		bool Init(const char *title, int sWidth, int sHeight, int lWidth, int lHeight, bool fullScreen);
+		bool AddSprite(const char *filePath, std::string name);
+		bool ClipSprite(std::string name, float clipStartX, float clipStartY, float clipWidth, float clipHeight);
+		bool MoveSprite(std::string name, float posX, float posY);
+		bool ScaleSprite(std::string name, float width, float height);
+		float GetSpriteWidth(std::string name);
+		float GetSpriteHeight(std::string name);
+		float GetSpriteX(std::string name);
+		float GetSpriteY(std::string name);
 		bool HandleEvents(SDL_Event *event);
 		void Update();
 		void Render();
@@ -39,7 +39,7 @@ private:
 	Uint64 lastTick;
 
 
-	Sprite* GetSprite(char *name);
+	Sprite* GetSprite(std::string name);
 	void RenderSprites();
 	float CalculateDeltaTime();
 
