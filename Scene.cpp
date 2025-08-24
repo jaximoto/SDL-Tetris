@@ -164,13 +164,18 @@ void Scene::Render()
 
   
     SDL_RenderClear(renderer);
-    this->RenderSprites();
+    //this->RenderSprites();
     SDL_RenderPresent(renderer);
 
     return;
 }
+<<<<<<< HEAD
 
 /*
+=======
+/*
+* LEGACY CODE
+>>>>>>> 992ba22 (Added Vec2 and Block header files)
 void Scene::RenderSprites()
 {
     for (auto it = this->spriteMap.begin(); it != this->spriteMap.end(); ++it)
@@ -179,10 +184,13 @@ void Scene::RenderSprites()
 	}
 }
 */
+<<<<<<< HEAD
 void Scene::RenderSprites()
 {
     return;
 }
+=======
+>>>>>>> 992ba22 (Added Vec2 and Block header files)
 Scene::~Scene()
 {
     isRunning = false;

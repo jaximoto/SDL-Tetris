@@ -132,9 +132,14 @@
     <ClCompile Include="SpriteManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Block.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Sprite.hpp" />
+<<<<<<< HEAD
     <ClInclude Include="SpriteManager.hpp" />
+=======
+    <ClInclude Include="Vec2.hpp" />
+>>>>>>> 992ba22 (Added Vec2 and Block header files)
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
