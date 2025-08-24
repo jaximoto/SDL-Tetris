@@ -174,12 +174,13 @@ void Scene::Render()
 
   
     SDL_RenderClear(renderer);
-    this->RenderSprites();
+    //this->RenderSprites();
     SDL_RenderPresent(renderer);
 
     return;
 }
-
+/*
+* LEGACY CODE
 void Scene::RenderSprites()
 {
     for (auto it = this->spriteMap.begin(); it != this->spriteMap.end(); ++it)
@@ -187,7 +188,7 @@ void Scene::RenderSprites()
         it->second->Render(this->renderer);
 	}
 }
-
+*/
 Scene::~Scene()
 {
     isRunning = false;

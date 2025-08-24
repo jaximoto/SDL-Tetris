@@ -53,6 +53,7 @@ SDL_AppResult SDL_AppIterate(void* appstate)
 {
     Scene* tetris = static_cast<Scene*>(appstate);
 	tetris->Update();
+    /*
     float deltaTime = tetris->deltaTime; 
     timeAccumulator += deltaTime;
     float lastTime = 0.0f;
@@ -66,6 +67,7 @@ SDL_AppResult SDL_AppIterate(void* appstate)
         lastTime = timeAccumulator;
     }
 
+    */
 	//tetris->MoveSprite(0, tetris->GetSpriteX(0), tetris->GetSpriteY(0) + 1);
 
     
