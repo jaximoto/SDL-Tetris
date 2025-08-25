@@ -185,12 +185,19 @@ void Scene::RenderSprites()
 }
 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 void Scene::RenderSprites()
 {
     return;
 }
 =======
 >>>>>>> 992ba22 (Added Vec2 and Block header files)
+=======
+void Scene::RenderObjects()
+{
+
+}
+>>>>>>> 6e6a247 (Created IRenderable parent class for renderable objects)
 Scene::~Scene()
 {
     isRunning = false;

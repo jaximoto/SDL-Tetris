@@ -40,9 +40,16 @@ public:
 private:
 	bool isRunning;
 	Uint64 lastTick;
+<<<<<<< HEAD
 	
 	std::shared_ptr<Sprite> GetSprite(std::string name);
 	void RenderSprites();
+=======
+
+
+	Sprite* GetSprite(std::string name);
+	void RenderObjects();
+>>>>>>> 6e6a247 (Created IRenderable parent class for renderable objects)
 	float CalculateDeltaTime();
 
 	

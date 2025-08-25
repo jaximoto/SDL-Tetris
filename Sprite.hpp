@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL3_image/SDL_image.h>
+#include "IRenderable.hpp"
 #include "Vec2.hpp"
 
 class Sprite {
@@ -16,6 +17,7 @@ public:
 	// SetScreenScale(w, h) edit SRect width and heght
 	bool SetScreenScale(float w, float h);
 	bool Render(SDL_Renderer* renderer, Math::Vec2 position, float rotation, Math::Vec2 scale);
+	
 	void Clean();
 	bool IsLoaded() const;
 
