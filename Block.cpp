@@ -1,14 +1,14 @@
 #include "Block.hpp"
 
-	Block::Block(Math::Vec2 pos = { 1.0f, 1.0f },
-		float rot = 0.0f,
-		Math::Vec2 scale = { 1.0f, 1.0f },
-		std::unique_ptr<Sprite> sprite)
+	Block::Block(Math::Vec2 pos,
+		float rot,
+		Math::Vec2 scale,
+		std::string spriteName)
 	{
 		this->position = pos;
 		this->rotation = rot;
 		this->scale = scale;
-		this->sprite = std::move(sprite);
+		this->sprite = 
 	}
 
 	bool Block::Render(SDL_Renderer* renderer) const
@@ -17,6 +17,7 @@
 		{
 			return sprite->Render(renderer, position, rotation, scale);
 		}
+		return false;
 	}
 
 

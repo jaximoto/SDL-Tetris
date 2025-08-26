@@ -3,6 +3,7 @@
 #include "Sprite.hpp"
 #include "IRenderable.hpp"
 #include <memory>
+#include <string>
 class Block : public IRenderable
 {
 public:
@@ -16,17 +17,14 @@ public:
 	Block(Math::Vec2 pos = { 1.0f, 1.0f },
 		float rot = 0.0f,
 		Math::Vec2 scale = { 1.0f, 1.0f },
-		std::unique_ptr<Sprite> sprite)
-		: position(pos),
-		rotation(rot),
-		scale(scale),
-		sprite(std::move(sprite))
-	{
-	}
+		std::string spriteName = "");
+		
+	
+
 	~Block() override = default;
 
 private:
-	std::unique_ptr<Sprite> sprite;
+	std::shared_ptr<Sprite> sprite;
 	
 	bool Render(SDL_Renderer* renderer) const override;
 	

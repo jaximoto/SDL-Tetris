@@ -24,7 +24,7 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
 		delete(tetris);
         return SDL_APP_FAILURE;
     }
-    /*
+    
     tetris->AddSprite("C:/GLP/SDLx64-0/Assets/cblock.png", "square");
     tetris->ClipSprite("square", 485, 303, 475, 474);
     //tetris->ClipSprite(0, 485, 303, 600, 600);
@@ -33,10 +33,9 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
     //SDL_Log("get sprite width: %f", tetris->GetSpriteWidth(0));
     //SDL_Log("get sprite height: %f", tetris->GetSpriteHeight(0));
     //tetris->MoveSprite(0,  ((SCREEN_WIDTH - tetris->GetSpriteWidth(0)) / 2), ((SCREEN_HEIGHT - tetris->GetSpriteHeight(0)) / 2));
-    if(tetris->MoveSprite("square", 200,150))
+    //if(tetris->MoveSprite("square", 200,150))
         //SDL_Log("returned true");
-        */
-    *appstate = tetris;  /* store the Scene instance in appstate */
+        
 	*appstate = tetris;  /* store the Scene instance in appstate */
     return SDL_APP_CONTINUE;
 }
