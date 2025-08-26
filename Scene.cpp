@@ -47,26 +47,8 @@ bool Scene::Init(const char *title, int sWidth, int sHeight, int lWidth, int lHe
 //----------------------------------Sprites----------------------
 bool Scene::AddSprite(const char *filePath, std::string name)
 {
-<<<<<<< HEAD
     //SDL_Log("Added Sprite");
 	return this->spriteManager->LoadSprite(name, filePath);
-=======
-   
-    
-    auto newSprite = std::make_shared<Sprite>(filePath);
-    
-
-    
-    if (!newSprite->IsLoaded())
-    {
-		SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Failed to load sprite: %s", filePath);
-        return false;
-    }
-
-    this->spriteMap[name] = newSprite;
-
-    return true;
->>>>>>> eb4db83 (spriteMap is back with shared_ptrs)
 }
 
 bool Scene::ClipSprite(std::string name, float clipStartX, float clipStartY, float clipWidth, float clipHeight)
@@ -149,15 +131,7 @@ float Scene::GetSpriteHeight(std::string name)
 std::shared_ptr<Sprite> Scene::GetSprite(std::string name)
 {
    
-<<<<<<< HEAD
 	return this->spriteManager->GetSprite(name);
-=======
-    auto it = this->spriteMap.find(name);
-
-    if(it != this->spriteMap.end())
-		return it->second;
-	return nullptr;  
->>>>>>> d61c2c4 (Refactored spriteMap to renderMap)
 }
 
 bool Scene::HandleEvents(SDL_Event* event)
@@ -204,7 +178,6 @@ void Scene::Render()
 =======
 =======
 */
->>>>>>> d61c2c4 (Refactored spriteMap to renderMap)
 /*
 * LEGACY CODE
 >>>>>>> 992ba22 (Added Vec2 and Block header files)
@@ -216,15 +189,7 @@ void Scene::RenderSprites()
 	}
 }
 */
-<<<<<<< HEAD
-<<<<<<< HEAD
-void Scene::RenderSprites()
-{
-    return;
-}
-=======
->>>>>>> 992ba22 (Added Vec2 and Block header files)
-=======
+
 void Scene::RenderObjects()
 {
     for (const auto& pair : renderMap)
@@ -236,7 +201,6 @@ void Scene::RenderObjects()
 
 
 }
->>>>>>> 6e6a247 (Created IRenderable parent class for renderable objects)
 Scene::~Scene()
 {
     isRunning = false;
