@@ -43,12 +43,30 @@ bool Scene::Init(const char *title, int sWidth, int sHeight, int lWidth, int lHe
 	this->isRunning = true;
     return true;
 }
-/*
+
 //----------------------------------Sprites----------------------
 bool Scene::AddSprite(const char *filePath, std::string name)
 {
+<<<<<<< HEAD
     //SDL_Log("Added Sprite");
 	return this->spriteManager->LoadSprite(name, filePath);
+=======
+   
+    
+    auto newSprite = std::make_shared<Sprite>(filePath);
+    
+
+    
+    if (!newSprite->IsLoaded())
+    {
+		SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Failed to load sprite: %s", filePath);
+        return false;
+    }
+
+    this->spriteMap[name] = newSprite;
+
+    return true;
+>>>>>>> eb4db83 (spriteMap is back with shared_ptrs)
 }
 
 bool Scene::ClipSprite(std::string name, float clipStartX, float clipStartY, float clipWidth, float clipHeight)
@@ -141,7 +159,7 @@ std::shared_ptr<Sprite> Scene::GetSprite(std::string name)
 	return nullptr;  
 >>>>>>> d61c2c4 (Refactored spriteMap to renderMap)
 }
-*/
+
 bool Scene::HandleEvents(SDL_Event* event)
 {
     if (event->type == SDL_EVENT_KEY_DOWN ||

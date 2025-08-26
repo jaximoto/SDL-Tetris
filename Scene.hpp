@@ -9,6 +9,7 @@
 #include "SpriteManager.hpp"
 =======
 #include <map>
+#include<unordered_map>
 #include <memory>
 #include "Sprite.hpp"
 #include "IRenderable.hpp"
@@ -20,9 +21,13 @@ public:
 		SDL_Window* window;
 		SDL_Renderer* renderer;
 <<<<<<< HEAD
+<<<<<<< HEAD
 		std::shared_ptr<SpriteManager> spriteManager;
 
 =======
+=======
+		std::unordered_map<std::string, std::shared_ptr<Sprite>> spriteMap;
+>>>>>>> eb4db83 (spriteMap is back with shared_ptrs)
 		std::multimap<int, std::shared_ptr<IRenderable>> renderMap;
 >>>>>>> d61c2c4 (Refactored spriteMap to renderMap)
 		
@@ -31,7 +36,7 @@ public:
 		Scene();
 		~Scene();
 		bool Init(const char *title, int sWidth, int sHeight, int lWidth, int lHeight, bool fullScreen);
-		/*
+		
 		bool AddSprite(const char *filePath, std::string name);
 		bool ClipSprite(std::string name, float clipStartX, float clipStartY, float clipWidth, float clipHeight);
 		bool MoveSprite(std::string name, float posX, float posY);
@@ -40,7 +45,7 @@ public:
 		float GetSpriteHeight(std::string name);
 		float GetSpriteX(std::string name);
 		float GetSpriteY(std::string name);
-		*/
+		
 		bool HandleEvents(SDL_Event *event);
 		void Update();
 		void RenderObjects();
@@ -61,9 +66,14 @@ private:
 =======
 
 
+<<<<<<< HEAD
 	//Sprite* GetSprite(std::string name);
 	void RenderObjects();
 >>>>>>> 6e6a247 (Created IRenderable parent class for renderable objects)
+=======
+	std::shared_ptr<Sprite> GetSprite(std::string name);
+	
+>>>>>>> eb4db83 (spriteMap is back with shared_ptrs)
 	float CalculateDeltaTime();
 
 	
