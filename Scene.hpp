@@ -3,14 +3,17 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <memory>
 #include "Sprite.hpp"
+#include "SpriteManager.hpp"
 
 
 class Scene {
 public:
 		SDL_Window* window;
 		SDL_Renderer* renderer;
-		std::unordered_map<std::string, Sprite*> spriteMap;
+		std::shared_ptr<SpriteManager> spriteManager;
+
 		
 		float deltaTime;
 
@@ -37,9 +40,8 @@ public:
 private:
 	bool isRunning;
 	Uint64 lastTick;
-
-
-	Sprite* GetSprite(std::string name);
+	
+	std::shared_ptr<Sprite> GetSprite(std::string name);
 	void RenderSprites();
 	float CalculateDeltaTime();
 

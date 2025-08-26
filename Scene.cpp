@@ -1,5 +1,6 @@
 #include "Scene.hpp"
 #include <SDL3/SDL_init.h>
+#include "SpriteManager.hpp"
 Scene::Scene()
 {
     this->window = nullptr;
@@ -7,6 +8,7 @@ Scene::Scene()
     this->isRunning = false;
 	this->deltaTime = 0;
     this->lastTick = 0;
+	this->spriteManager = std::make_shared<SpriteManager>(this->renderer);
 }
 
 
@@ -35,6 +37,8 @@ bool Scene::Init(const char *title, int sWidth, int sHeight, int lWidth, int lHe
         SDL_Log("Couldn't set logical size: %s", SDL_GetError());
         return false;
 	}
+
+    this->spriteManager = std::make_shared<SpriteManager>(this->renderer);
     this->lastTick = SDL_GetTicks();
 	this->isRunning = true;
     return true;
@@ -43,23 +47,13 @@ bool Scene::Init(const char *title, int sWidth, int sHeight, int lWidth, int lHe
 //----------------------------------Sprites----------------------
 bool Scene::AddSprite(const char *filePath, std::string name)
 {
-   
-    
-    Sprite *newSprite = new Sprite(this->renderer, filePath);
-    
-    if (!newSprite->IsLoaded())
-    {
-        delete newSprite;
-        return false;
-    }
-
-    this->spriteMap.insert({ name, newSprite });
-    return true;
+    //SDL_Log("Added Sprite");
+	return this->spriteManager->LoadSprite(name, filePath);
 }
 
 bool Scene::ClipSprite(std::string name, float clipStartX, float clipStartY, float clipWidth, float clipHeight)
 {
-    Sprite* sprite = GetSprite(name);
+    std::shared_ptr<Sprite> sprite = GetSprite(name);
     if (sprite == nullptr)
     {
         SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist: %s", name.c_str());
@@ -70,7 +64,7 @@ bool Scene::ClipSprite(std::string name, float clipStartX, float clipStartY, flo
 
 bool Scene::ScaleSprite(std::string name, float width, float height)
 {
-    Sprite* sprite = GetSprite(name);
+    std::shared_ptr<Sprite> sprite = GetSprite(name);
     if (sprite == nullptr)
     {
         SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist: %s", name.c_str());
@@ -82,7 +76,7 @@ bool Scene::ScaleSprite(std::string name, float width, float height)
 }
 bool Scene::MoveSprite(std::string name, float posX, float posY)
 {
-    Sprite* sprite = GetSprite(name);
+    std::shared_ptr<Sprite> sprite = GetSprite(name);
     if (sprite == nullptr)
     {
         SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist %s", name.c_str());
@@ -95,7 +89,7 @@ bool Scene::MoveSprite(std::string name, float posX, float posY)
 
 float Scene::GetSpriteX(std::string name)
 {
-    Sprite* sprite = GetSprite(name);
+    std::shared_ptr<Sprite> sprite = GetSprite(name);
     if (sprite == nullptr)
     {
         SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist: %s", name.c_str());
@@ -105,7 +99,7 @@ float Scene::GetSpriteX(std::string name)
 }
 float Scene::GetSpriteY(std::string name)
 {
-    Sprite* sprite = GetSprite(name);
+    std::shared_ptr<Sprite> sprite = GetSprite(name);
     if (sprite == nullptr)
     {
         SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist: %s", name.c_str());
@@ -115,7 +109,7 @@ float Scene::GetSpriteY(std::string name)
 }
 float Scene::GetSpriteWidth(std::string name)
 {
-    Sprite* sprite = GetSprite(name);
+    std::shared_ptr<Sprite> sprite = GetSprite(name);
     if (sprite == nullptr)
     {
         SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not %s", name.c_str());
@@ -126,7 +120,7 @@ float Scene::GetSpriteWidth(std::string name)
 
 float Scene::GetSpriteHeight(std::string name)
 {
-    Sprite* sprite = GetSprite(name);
+    std::shared_ptr<Sprite> sprite = GetSprite(name);
     if (sprite == nullptr)
     {
         SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Sprite does not exist: %s", name.c_str());
@@ -134,14 +128,10 @@ float Scene::GetSpriteHeight(std::string name)
     }
     return sprite->dRect.h;
 }
-Sprite* Scene::GetSprite(std::string name)
+std::shared_ptr<Sprite> Scene::GetSprite(std::string name)
 {
    
-    auto it = this->spriteMap.find(name);
-
-    if(it != this->spriteMap.end())
-		return it->second;
-	return nullptr;  /* sprite not found */
+	return this->spriteManager->GetSprite(name);
 }
 bool Scene::HandleEvents(SDL_Event* event)
 {
@@ -180,6 +170,7 @@ void Scene::Render()
     return;
 }
 
+/*
 void Scene::RenderSprites()
 {
     for (auto it = this->spriteMap.begin(); it != this->spriteMap.end(); ++it)
@@ -187,7 +178,11 @@ void Scene::RenderSprites()
         it->second->Render(this->renderer);
 	}
 }
-
+*/
+void Scene::RenderSprites()
+{
+    return;
+}
 Scene::~Scene()
 {
     isRunning = false;
@@ -204,11 +199,7 @@ void Scene::Clean()
 
 void Scene::DestroySprites()
 {
-    for (auto& pair : spriteMap)
-    {
-        delete pair.second;
-    }
-	spriteMap.clear();
+    return;
 
 }
 
