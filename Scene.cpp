@@ -133,6 +133,7 @@ std::shared_ptr<Sprite> Scene::GetSprite(std::string name)
    
 	return this->spriteManager->GetSprite(name);
 }
+
 bool Scene::HandleEvents(SDL_Event* event)
 {
     if (event->type == SDL_EVENT_KEY_DOWN ||
@@ -155,6 +156,7 @@ float Scene::CalculateDeltaTime()
     lastTick = currentTick;
     return deltaTime;
 }
+/*
 void Scene::Render()
 {
    
@@ -164,13 +166,21 @@ void Scene::Render()
 
   
     SDL_RenderClear(renderer);
-    this->RenderSprites();
+    //this->RenderSprites();
     SDL_RenderPresent(renderer);
 
     return;
 }
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 /*
+=======
+=======
+*/
+/*
+* LEGACY CODE
+>>>>>>> 992ba22 (Added Vec2 and Block header files)
 void Scene::RenderSprites()
 {
     for (auto it = this->spriteMap.begin(); it != this->spriteMap.end(); ++it)
@@ -179,9 +189,30 @@ void Scene::RenderSprites()
 	}
 }
 */
-void Scene::RenderSprites()
+
+/*
+bool Scene::AddBlock(std::shared_ptr<IRenderable> block, int layer)
 {
-    return;
+    if (!block)
+    {
+        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Cannot add null Block to scene.");
+        return false;
+    }
+    
+    renderMap.insert({ layer, block });
+    return true;
+}
+*/
+void Scene::RenderObjects()
+{
+    for (const auto& pair : renderMap)
+    {
+        int layer = pair.first;
+        const auto& obj = pair.second;
+        obj->Render(renderer);
+    }
+
+
 }
 Scene::~Scene()
 {
@@ -192,14 +223,20 @@ void Scene::Clean()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
-	DestroySprites();
+	DestroyObjects();
     SDL_Quit();
 	SDL_Log("Scene cleaned up successfully.");
 }
 
+/*
 void Scene::DestroySprites()
 {
     return;
 
+}
+*/
+void Scene::DestroyObjects()
+{
+	this->renderMap.clear();
 }
 

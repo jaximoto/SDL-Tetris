@@ -1,5 +1,5 @@
 #include "Sprite.hpp"
-
+#include "Vec2.hpp"
 Sprite::Sprite(SDL_Renderer* renderer, const char* filePath)
 {
 	// create static sRect and dRect
@@ -76,7 +76,7 @@ bool Sprite::IsLoaded() const
 	return this->isLoaded;
 }
 
-bool Sprite::Render(SDL_Renderer* renderer)
+bool Sprite::Render(SDL_Renderer* renderer, Math::Vec2 position, float rotation, Math::Vec2 scale)
 {
 	/*
 	SDL_Log("Rendering sprite with sRect: x=%f, y=%f, w=%f, h=%f",
@@ -86,10 +86,14 @@ bool Sprite::Render(SDL_Renderer* renderer)
 		this->dRect.x, this->dRect.y, this->dRect.w, this->dRect.h);
 	
 	*/
-	SDL_FRect* s = SDL_RectEmptyFloat(&this->sRect) ? nullptr : &this->sRect;
-	SDL_FRect* d = SDL_RectEmptyFloat(&this->dRect) ? nullptr : &this->dRect;
-	
-	return SDL_RenderTexture(this->renderer, this->texture, s, d);
+	SDL_FRect dest;
+	dest.x = position.x;
+	dest.y = position.y;
+	dest.w = sRect.w * scale.x;
+	dest.h = sRect.h * scale.y;
+
+	return SDL_RenderTextureRotated(renderer, texture, &sRect, &dest, rotation, nullptr, SDL_FLIP_NONE);
+
 
 }
 Sprite::~Sprite()
