@@ -11,6 +11,7 @@
 #include <memory>
 #include "Sprite.hpp"
 #include "IRenderable.hpp"
+#include "Block.hpp"
 
 
 class Scene {
@@ -19,6 +20,7 @@ public:
 		SDL_Renderer* renderer;
 		std::shared_ptr<SpriteManager> spriteManager;
 
+		//std::shared_ptr<IRenderable> objectMap;
 		std::multimap<int, std::shared_ptr<IRenderable>> renderMap;
 		
 		float deltaTime;
@@ -27,6 +29,7 @@ public:
 		~Scene();
 		bool Init(const char *title, int sWidth, int sHeight, int lWidth, int lHeight, bool fullScreen);
 		
+		//Sprites
 		bool AddSprite(const char *filePath, std::string name);
 		bool ClipSprite(std::string name, float clipStartX, float clipStartY, float clipWidth, float clipHeight);
 		bool MoveSprite(std::string name, float posX, float posY);
@@ -35,6 +38,9 @@ public:
 		float GetSpriteHeight(std::string name);
 		float GetSpriteX(std::string name);
 		float GetSpriteY(std::string name);
+
+		//Rendering
+		//bool AddBlock(std::shared_ptr<IRenderable>, int layer);
 		void RenderObjects();
 		bool HandleEvents(SDL_Event *event);
 		void Update();

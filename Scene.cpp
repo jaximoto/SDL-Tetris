@@ -190,6 +190,19 @@ void Scene::RenderSprites()
 }
 */
 
+/*
+bool Scene::AddBlock(std::shared_ptr<IRenderable> block, int layer)
+{
+    if (!block)
+    {
+        SDL_LogError(SDL_LOG_PRIORITY_ERROR, "Cannot add null Block to scene.");
+        return false;
+    }
+    
+    renderMap.insert({ layer, block });
+    return true;
+}
+*/
 void Scene::RenderObjects()
 {
     for (const auto& pair : renderMap)

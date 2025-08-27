@@ -30,6 +30,8 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
     //tetris->ClipSprite(0, 485, 303, 600, 600);
     //tetris->ClipSprite(0, 0, 0, 1920, 1080);
     tetris->ScaleSprite("square", 32, 32);
+
+    
     //SDL_Log("get sprite width: %f", tetris->GetSpriteWidth(0));
     //SDL_Log("get sprite height: %f", tetris->GetSpriteHeight(0));
     //tetris->MoveSprite(0,  ((SCREEN_WIDTH - tetris->GetSpriteWidth(0)) / 2), ((SCREEN_HEIGHT - tetris->GetSpriteHeight(0)) / 2));
