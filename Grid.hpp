@@ -2,6 +2,7 @@
 #include <vector>
 #include "Block.hpp"
 #include "Tetrimino.hpp"
+
 class Grid
 {
 public:
@@ -10,14 +11,14 @@ public:
 	bool IsCellOcuppied(int x, int y) const;
 	bool IsValidPosition(int x, int y) const;
 
-	bool canPlace(const Tetrimino& t) const;
-	void placeTetrimino(const Tetrimino& t);
+	bool CanPlace(const Tetrimino& t) const;
+	void PlaceTetrimino(const Tetrimino& t);
 
-	std::vector<int> getFullRows() const;
-	void clearRows(const std::vector<int>& rows);
-	void shiftRowsDown(const std::vector<int>& clearedRows);
+	std::vector<int> GetFullRows() const;
+	void ClearRows(const std::vector<int>& rows);
+	void ShiftRowsDown(const std::vector<int>& clearedRows);
 
-	void render(SDL_Renderer* renderer) const;
+	void Render(SDL_Renderer* renderer) const;
 
 
 private:
