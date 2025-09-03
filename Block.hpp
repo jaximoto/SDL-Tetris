@@ -24,12 +24,13 @@ public:
 	bool ChangeSprite(const std::string& spriteName) override;
 
 	~Block() override = default;
+	bool Render(SDL_Renderer* renderer) const override;
 
 private:
 	std::shared_ptr<SpriteManager> spriteManager;
 	std::shared_ptr<Sprite> sprite;
 	
-	bool Render(SDL_Renderer* renderer) const override;
+	
 	
 		
 	
